@@ -4,6 +4,11 @@ run-name: Hey ${{ github.actor }}, you are using GitHub Actions!
 
 on:
   workflow_dispatch:
+    inputs:
+      who-to-greet:
+        type: string
+        description: Who should I greet?
+        default: world
 
   issues:
     types: [opened]
@@ -12,7 +17,7 @@ jobs:
   starter-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Say hello to ${{ github.actor }}
+      - name: Say hello to ${{ inputs.who-to-greet }}
         run: echo "Hello, $NAME"
         env:
-          NAME: ${{ github.actor }}
+          NAME: ${{ inputs.who-to-greet }}
