@@ -13,6 +13,10 @@ on:
   issues:
     types: [opened]
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   starter-job:
     runs-on: ubuntu-latest
