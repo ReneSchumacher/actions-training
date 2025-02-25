@@ -21,3 +21,10 @@ jobs:
         run: echo "Hello, $NAME"
         env:
           NAME: ${{ inputs.who-to-greet }}
+      
+      - name: Add greeting to issue
+        if: github.event.issue
+        run: |
+          gh issue comment ${{ github.event.issue.number }} -R ${{ github.repository_owner }}/${{ github.repository }} -b "Hello from GitHub Actions! Thank you for opening this issue! 🎖️"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
