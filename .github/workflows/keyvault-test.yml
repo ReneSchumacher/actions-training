@@ -14,7 +14,9 @@ jobs:
       - name: Get secret
         id: get-secret
         run: |
-          echo "secret-value=$(az keyvault secret show --name MySecret --vault-name rs-github-secrets --query value -o tsv)" >> $GITHUB_OUTPUT
+          secret=$(az keyvault secret show --name MySecret --vault-name rs-github-secrets --query value -o tsv)
+          echo "::add-mask::$secret"
+          echo "secret-value=$secret" >> $GITHUB_OUTPUT
       
       - name: Show secret
         run: |
