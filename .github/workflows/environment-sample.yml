@@ -1,0 +1,31 @@
+name: Environment Sample
+
+on: [workflow_dispatch]
+
+jobs:
+  dev-job:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build application
+        run: echo "This is my app!" >> app.txt
+      
+      - name: Publish artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{ vars.ARTIFACT_NAME }}.txt
+          name: ${{ vars.ARTIFACT_NAME }}
+  
+  test-job:
+    needs: dev-job
+    uses: ./.github/workflows/deploy-job.yml
+    with:
+      environment: Test
+      artifact-name: ${{ vars.ARTIFACT_NAME }}
+  
+  prod-job:
+    needs: test-job
+    uses: ./.github/workflows/deploy-job.yml
+    with:
+      environment: Prod
+      artifact-name: ${{ vars.ARTIFACT_NAME }}

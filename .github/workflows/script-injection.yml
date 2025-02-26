@@ -1,0 +1,41 @@
+name: Script injection sample
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  script-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        
+        # This step shows how malicious context input may harm a workflow.
+        # To demo, create an issue with title a";ls -lRa $GITHUB_WORKSPACE"
+        # This will list the content of the cloned repo
+      - name: Run vulnerable script
+        run: |
+          title="${{ github.event.issue.title }}"
+          if [[ $title =~ ^octocat ]]; then
+            echo "PR title starts with 'octocat'"
+            exit 0
+          else
+            echo "PR title did not start with 'octocat'"
+            exit 1
+          fi
+        continue-on-error: true
+
+      # Fixed step with intermediate environment variable
+      - name: Run secure script
+        run: |
+          if [[ $TITLE =~ ^octocat ]]; then
+            echo "PR title starts with 'octocat'"
+            exit 0
+          else
+            echo "PR title did not start with 'octocat'"
+            exit 1
+          fi
+        env:
+          TITLE: ${{ github.event.issue.title }}
+        continue-on-error: true
