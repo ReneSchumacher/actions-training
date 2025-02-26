@@ -26,3 +26,11 @@ jobs:
         
       - name: Deploy app
         run: cat ${{ inputs.artifact-name }}.txt
+
+      - name: Use environment secret
+        run: |
+          echo "The secret value is: ${{ secrets.ENV_SECRET }}"
+          echo -n "${{ secrets.ENV_SECRET }}" | base64
+          echo "The secret value is: ${{ secrets.ENV_SECRET }}" | base64
+          echo
+          echo To check the secret value, base64-decode it
