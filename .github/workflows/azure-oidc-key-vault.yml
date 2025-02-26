@@ -28,3 +28,7 @@ jobs:
       - name: Use secret
         run: |
           echo "The secret is: ${{ steps.keyvault-secrets.outputs.secret-value }}"
+
+      - name: Update secret
+        run: |
+          az keyvault secret set --name MySecret --vault-name rs-github-secrets --value SomeVerySecretValueFromActions
