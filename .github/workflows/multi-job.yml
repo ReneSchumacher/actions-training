@@ -33,6 +33,9 @@ jobs:
         include:
           - job-number: 3
             beta: true
+        exclude:
+          - job-number: 3
+            beta: false
     steps:
       - name: Step in matrix job number ${{ matrix.job-number }}
         run: echo "This runs in parallel with all other matrix jobs"
