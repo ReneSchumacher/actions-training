@@ -1,0 +1,19 @@
+name: Azure OIDC Key Vault Sample
+
+on: [workflow_dispatch]
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    environment: Prod
+    steps:
+      - name: Log in to Azure
+        uses: azure/login@v4
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION }}
+      
+      - name: Get secret from Key Vault
+        run: |
+          echo "$(az keyvault secret show --name MySecret --vault-name rs-github-secrets --query value -o tsv)"
