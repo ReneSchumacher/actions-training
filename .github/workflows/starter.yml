@@ -21,10 +21,16 @@ jobs:
   starter-job:
     runs-on: ubuntu-latest
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        
       - name: Say hello to ${{ inputs.who-to-greet }}
         run: echo "Hello, $NAME"
         env:
           NAME: ${{ inputs.who-to-greet }}
+
+      - name: Say hello vulnerable
+        run: echo "Hello, ${{ inputs.who-to-greet }}"
       
       - name: Add greeting to issue
         if: github.event.issue
