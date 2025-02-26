@@ -23,8 +23,26 @@ jobs:
       - name: Step in third job
         run: echo "This runs in parallel with the second job"
 
-  final-job:
+  matrix-job:
     needs: [ first-job-in-parallel, second-job-in-parallel ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        job-number: [1, 2, 3]
+        beta: [false]
+        include:
+          - job-number: 4
+            beta: true
+    steps:
+      - name: Step in matrix job number ${{ matrix.job-number }}
+        run: echo "This runs in parallel with all other matrix jobs"
+
+      - name: This step is beta
+        run: echo "Let's do some beta stuff here"
+        if: ${{ matrix.beta }}
+
+  final-job:
+    needs: matrix-job
     runs-on: ubuntu-latest
     steps:
       - name: Step in final job
