@@ -10,7 +10,6 @@ jobs:
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_SP_CREDS }}
-          enable-AzPSSession: true
       
       - name: Get secrets
         run: |
