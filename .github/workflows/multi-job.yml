@@ -2,6 +2,10 @@ name: Multiple jobs and matrix jobs
 
 on: [ workflow_dispatch ]
 
+concurrency:
+  group: MyGroupName
+  cancel-in-progress: false
+
 jobs:
   first-job:
     runs-on: ubuntu-latest
