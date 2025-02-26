@@ -1,0 +1,21 @@
+name: Key Vault Test
+
+on: [workflow_dispatch]
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_SP_CREDS }}
+      
+      - name: Get secret
+        id: get-secret
+        run: |
+          echo "secret-value=$(az keyvault secret show --name MySecret --vault-name rs-github-secrets)" >> $GITHUB_OUTPUT
+      
+      - name: Show secret
+        run: |
+          echo "The value is: ${{ steps.get-secret.outputs.secret-value }}"
