@@ -1,9 +1,6 @@
 name: Environment Sample
 
 on: [workflow_dispatch]
-
-env:
-  ARTIFACT_NAME: app
   
 jobs:
   dev-job:
@@ -16,15 +13,15 @@ jobs:
       - name: Publish artifact
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ env.ARTIFACT_NAME }}.txt
-          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ vars.ARTIFACT_NAME }}.txt
+          name: ${{ vars.ARTIFACT_NAME }}
 
   test-job:
     needs: dev-job
     uses: ./.github/workflows/deploy-job.yml
     with:
       environment: Test
-      artifact-name: ${{ env.ARTIFACT_NAME }}
+      artifact-name: ${{ vars.ARTIFACT_NAME }}
     secrets: inherit
   
   prod-job:
@@ -32,5 +29,5 @@ jobs:
     uses: ./.github/workflows/deploy-job.yml
     with:
       environment: Prod
-      artifact-name: ${{ env.ARTIFACT_NAME }}
+      artifact-name: ${{ vars.ARTIFACT_NAME }}
     secrets: inherit
