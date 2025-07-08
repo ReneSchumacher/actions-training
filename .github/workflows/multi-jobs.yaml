@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: '18 11 * * *' # Minute Stunde <Tag des Monats> Monat <Tag der Woche> - IMMER UTC
+    - cron: '25 11 * * *' # Minute Stunde <Tag des Monats> Monat <Tag der Woche> - IMMER UTC
 
 jobs:
   setup:
