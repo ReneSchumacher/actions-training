@@ -24,6 +24,7 @@ jobs:
       matrix:
         platform: [x86, x64]
         configuration: [debug, release]
+      fail-fast: false
     steps:
       - name: Build der Applikation
         run: |
