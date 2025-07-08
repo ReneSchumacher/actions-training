@@ -38,4 +38,10 @@ jobs:
           echo "Issue-Body: $BODY"
         env:
           TITLE: ${{ github.event.issue.title }}
-          BODY: ${{ github.event.issue.body || 'Kein Body vorhanden' }}
+          BODY: ${{ github.event.issue.body || '<Kein Body vorhanden>' }}
+
+      - name: Erzeuge Issue Kommentar
+        run: |
+          gh issue comment ${{ github.event.issue.number }} -R ${{ github.repository }} -b "Herzlich Willkommen bei GitHub Actions! Vielen Dank für die Erstellung des Issues, wir kümmern uns schnellstmöglich!"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
