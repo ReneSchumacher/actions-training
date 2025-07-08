@@ -33,7 +33,7 @@ jobs:
           echo "Erstelle für Plattform ${{ matrix.platform }} und Konfiguration ${{ matrix.configuration }}"
       
       - name: Simuliere Fehler
-        if: matrix.configuration == 'release' && matrix.platform == 'x64'
+        if: matrix.configuration == 'release'
         run: |
           echo "Fehler beim Erstellen!"
           exit 1
