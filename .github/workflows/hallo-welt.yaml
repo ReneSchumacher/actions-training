@@ -22,13 +22,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Entweder run (Skripte/Kommandozeilen) oder uses (Actions)
-      - run: echo "${{ inputs.begruessung }}, ${{ inputs.name }}!"
+      - run: echo "$GREETING, $NAME!"
         name: Sag Hallo
+        env:
+          GREETING: ${{ inputs.begruessung }}
+          NAME: ${{ inputs.name }}
 
       - run: echo "Das aktuelle Arbeitsverzeichnis ist ${{ github.workspace }}"
         name: Zeige Arbeitsverzeichnis an
 
       - name: Zeige Issue informationen an
         run: |
-          echo "Issue-Titel: ${{ github.event.issue.title }}"
-          echo "Issue-Body: ${{ github.event.issue.body }}"
+          echo "Issue-Titel: $TITLE"
+          echo "Issue-Body: $BODY"
+        env:
+          TITLE: ${{ github.event.issue.title }}
+          BODY: ${{ github.event.issue.body }}
