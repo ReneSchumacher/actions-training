@@ -24,6 +24,7 @@ jobs:
       matrix:
         platform: [x86, x64]
         configuration: [debug, release]
+        test: [true]
       max-parallel: 2
     steps:
       - name: Build der Applikation
