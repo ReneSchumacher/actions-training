@@ -1,0 +1,48 @@
+name: Nutzung mehrerer Jobs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.generate-version.outputs.version }}
+    steps:
+      - name: Generiere Applikationsversion
+        id: generate-version
+        run: |
+          echo "version=1.0.${{ github.run_number }}" >> $GITHUB_OUTPUT
+      
+      - name: Zeige Version an
+        run: echo "Neue Version ist v${{ steps.generate-version.outputs.version }}"
+
+  build-and-test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build der Applikation
+        run: |
+          echo "Erstelle die Applikation mit Version v${{ needs.setup.outputs.version }}"
+  
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment simulieren
+        run: |
+          echo "Deployment nach xyz"
+          echo "Fehler beim Deployment: FATAL"
+          exit 1
+  
+  report:
+    needs: [ setup, build-and-test, deploy ]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report erzeugen
+        run: |
+          echo "Ergebnis der Versionierung: ${{ needs.setup.result }}"
+          echo "  Version: ${{ needs.setup.outputs.version }}"
+          echo "Ergebnis von Build und Test: ${{ needs.build-and-test.result }}"
+          echo "Ergebnis des Deployments: ${{ needs.deploy.result }}"
