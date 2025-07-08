@@ -29,6 +29,12 @@ jobs:
         run: |
           echo "Erstelle die Applikation mit Version v${{ needs.setup.outputs.version }}"
           echo "Erstelle für Plattform ${{ matrix.platform }} und Konfiguration ${{ matrix.configuration }}"
+      
+      - name: Simuliere Fehler
+        if: matrix.configuration == 'release' && matrix.platform == 'x64'
+        run: |
+          echo "Fehler beim Erstellen!"
+          exit 1
   
   deploy:
     needs: build-and-test
