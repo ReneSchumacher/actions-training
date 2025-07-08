@@ -1,6 +1,6 @@
 name: Einfacher Hallo-Welt Workflow
 
-run-name: ${{ github.actor }} hat den Workflow gestartet
+run-name: Gestartet durch ${{ github.event.issue && format('Issue {0}', github.event.issue.number) || github.actor }}
 
 on:
   workflow_dispatch:
@@ -38,4 +38,4 @@ jobs:
           echo "Issue-Body: $BODY"
         env:
           TITLE: ${{ github.event.issue.title }}
-          BODY: ${{ github.event.issue.body }}
+          BODY: ${{ github.event.issue.body || 'Kein Body vorhanden' }}
