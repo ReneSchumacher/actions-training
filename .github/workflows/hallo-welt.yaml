@@ -14,6 +14,9 @@ on:
         type: string
         default: Hallo
 
+  issues:
+    types: [ opened ]
+
 jobs:
   hallo:
     runs-on: ubuntu-latest
@@ -24,3 +27,8 @@ jobs:
 
       - run: echo "Das aktuelle Arbeitsverzeichnis ist ${{ github.workspace }}"
         name: Zeige Arbeitsverzeichnis an
+
+      - name: Zeige Issue informationen an
+        run: |
+          echo "Issue-Titel: ${{ github.event.issue.title }}"
+          echo "Issue-Body: ${{ github.event.issue.body }}"
