@@ -3,9 +3,6 @@ name: Nutzung mehrerer Jobs
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron: '25 11 * * *' # Minute Stunde <Tag des Monats> Monat <Tag der Woche> - IMMER UTC
-
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -23,10 +20,15 @@ jobs:
   build-and-test:
     needs: setup
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [x86, x64]
+        configuration: [debug, release]
     steps:
       - name: Build der Applikation
         run: |
           echo "Erstelle die Applikation mit Version v${{ needs.setup.outputs.version }}"
+          echo "Erstelle für Plattform ${{ matrix.platform }} und Konfiguration ${{ matrix.configuration }}"
   
   deploy:
     needs: build-and-test
