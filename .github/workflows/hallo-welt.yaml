@@ -1,0 +1,14 @@
+name: Einfacher Hallo-Welt Workflow
+
+# run-name: Bezeichnung der Läufe
+
+on:
+  workflow_dispatch:
+
+jobs:
+  hallo:
+    runs-on: ubuntu-latest
+    steps:
+      # Entweder run (Skripte/Kommandozeilen) oder uses (Actions)
+      - run: echo "Hallo, Welt!"
+        name: Sag Hallo
