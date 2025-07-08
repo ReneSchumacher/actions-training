@@ -8,6 +8,8 @@ on:
       - '.github/**'
       - README.md
 
+  workflow_dispatch: 
+
 env:
   Configuration: Release
   DistFolder: ./dist
@@ -30,7 +32,7 @@ jobs:
 
       - name: Publizieren der Applikation
         run: |
-          dotnet publish -C ${{ env.Configuration }} -o ${{ env.DistFolder }} --no-build
+          dotnet publish -c ${{ env.Configuration }} -o ${{ env.DistFolder }} --no-build
       
       - name: Publizieren des Artefakts
         uses: actions/upload-artifact@v4
@@ -40,6 +42,7 @@ jobs:
   
   deploy-test:
     runs-on: ubuntu-latest
+    needs: build
     environment: Test
     steps:
       - name: Artefakt herunterladen
