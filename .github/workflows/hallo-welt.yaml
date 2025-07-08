@@ -25,13 +25,14 @@ jobs:
       - run: echo "$GREETING, $NAME!"
         name: Sag Hallo
         env:
-          GREETING: ${{ inputs.begruessung }}
-          NAME: ${{ inputs.name }}
+          GREETING: ${{ inputs.begruessung || 'Hallo' }}
+          NAME: ${{ inputs.name || 'Welt' }}
 
       - run: echo "Das aktuelle Arbeitsverzeichnis ist ${{ github.workspace }}"
         name: Zeige Arbeitsverzeichnis an
 
       - name: Zeige Issue informationen an
+        if: github.event.issue
         run: |
           echo "Issue-Titel: $TITLE"
           echo "Issue-Body: $BODY"
