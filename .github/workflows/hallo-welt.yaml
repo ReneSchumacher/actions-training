@@ -4,11 +4,23 @@ run-name: ${{ github.actor }} hat den Workflow gestartet
 
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        description: 'Person, die gegrüßt werden soll'
+        type: string
+        default: Welt
+      begruessung:
+        description: 'Zu verwendende Begrüßung'
+        type: string
+        default: Hallo
 
 jobs:
   hallo:
     runs-on: ubuntu-latest
     steps:
       # Entweder run (Skripte/Kommandozeilen) oder uses (Actions)
-      - run: echo "Hallo, Welt!"
+      - run: echo "${{ inputs.begruessung }}, ${{ inputs.name }}!"
         name: Sag Hallo
+
+      - run: echo "Das aktuelle Arbeitsverzeichnis ist ${{ github.workspace }}"
+        name: Zeige Arbeitsverzeichnis an
