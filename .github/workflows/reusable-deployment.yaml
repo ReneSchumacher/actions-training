@@ -1,0 +1,43 @@
+name: Reusable - Deployment zu Umgebung
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Zielumgebung für das Deployment'
+        type: string
+        required: true
+      artifact-name:
+        description: Name des zu verteilenden Artefakts
+        type: string
+        required: true
+      app-name:
+        description: Ausführbare Datei für das Deployment
+        type: string
+        required: true
+      dotnet-version:
+        description: 'Benötigte version von .NET'
+        type: string
+        default: 9.x
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Set up .NET ${{ inputs.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
+
+      - name: Artefakt herunterladen
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+      
+      - name: Simuliere Deployment
+        run: |
+          echo "Deployment läuft..."
+          echo "Deployment fertig"
+          chmod +x ${{ inputs.artifact-name }}/${{ inputs.app-name }}
+          ./${{ inputs.artifact-name }}/${{ inputs.app-name }}

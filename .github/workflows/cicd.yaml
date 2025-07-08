@@ -38,24 +38,28 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ${{ env.DistFolder }}
-          name: Applikation
+          name: ${{ vars.ARTIFACTNAME }}
   
-  deploy-test:
-    runs-on: ubuntu-latest
+  deploy-dev:
     needs: build
-    environment: Test
-    steps:
-      - name: Set up .NET 9.x
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.x
+    uses: ./.github/workflows/reusable-deployment.yaml
+    with:
+      environment: Dev
+      artifact-name: ${{ vars.ARTIFACTNAME }}
+      app-name: HelloWorld
 
-      - name: Artefakt herunterladen
-        uses: actions/download-artifact@v4
-      
-      - name: Simuliere Deployment
-        run: |
-          echo "Deployment läuft..."
-          echo "Deployment fertig"
-          chmod +x Applikation/HelloWorld
-          ./Applikation/HelloWorld
+  deploy-test:
+    needs: deploy-dev
+    uses: ./.github/workflows/reusable-deployment.yaml
+    with:
+      environment: Test
+      artifact-name: ${{ vars.ARTIFACTNAME }}
+      app-name: HelloWorld
+
+  deploy-prod:
+    needs: deploy-test
+    uses: ./.github/workflows/reusable-deployment.yaml
+    with:
+      environment: Prod
+      artifact-name: ${{ vars.ARTIFACTNAME }}
+      app-name: HelloWorld
