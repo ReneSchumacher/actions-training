@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: '16 11 * * *' # Minute Stunde <Tag des Monats> Monat <Tag der Woche> - IMMER UTC
-    
+    - cron: '18 11 * * *' # Minute Stunde <Tag des Monats> Monat <Tag der Woche> - IMMER UTC
+
 jobs:
   setup:
     runs-on: ubuntu-latest
