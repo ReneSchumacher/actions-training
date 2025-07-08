@@ -45,6 +45,11 @@ jobs:
     needs: build
     environment: Test
     steps:
+      - name: Set up .NET 9.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+
       - name: Artefakt herunterladen
         uses: actions/download-artifact@v4
       
