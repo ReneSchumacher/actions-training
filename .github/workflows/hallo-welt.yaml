@@ -1,6 +1,6 @@
 name: Einfacher Hallo-Welt Workflow
 
-# run-name: Bezeichnung der Läufe
+run-name: ${{ github.actor }} hat den Workflow gestartet
 
 on:
   workflow_dispatch:
