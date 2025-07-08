@@ -1,0 +1,53 @@
+name: Beispiel CI/CD für .NET
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/**'
+      - README.md
+
+env:
+  Configuration: Release
+  DistFolder: ./dist
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 9.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+            
+      - name: Kompilieren der Applikation
+        run: |
+          dotnet build -c ${{ env.Configuration }}
+
+      - name: Publizieren der Applikation
+        run: |
+          dotnet publish -C ${{ env.Configuration }} -o ${{ env.DistFolder }} --no-build
+      
+      - name: Publizieren des Artefakts
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{ env.DistFolder }}
+          name: Applikation
+  
+  deploy-test:
+    runs-on: ubuntu-latest
+    environment: Test
+    steps:
+      - name: Artefakt herunterladen
+        uses: actions/download-artifact@v4
+      
+      - name: Simuliere Deployment
+        run: |
+          echo "Deployment läuft..."
+          echo "Deployment fertig"
+          chmod +x Applikation/HelloWorld
+          ./Applikation/HelloWorld
