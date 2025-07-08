@@ -39,5 +39,5 @@ jobs:
         run: |
           echo "Deployment läuft..."
           echo "Deployment fertig"
-          chmod +x ${{ inputs.artifact-name }}/${{ inputs.app-name }}
-          ./${{ inputs.artifact-name }}/${{ inputs.app-name }}
+          chmod +x ${{ inputs.app-name }}
+          ./${{ inputs.app-name }}
