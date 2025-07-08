@@ -20,6 +20,8 @@ on:
 jobs:
   hallo:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       # Entweder run (Skripte/Kommandozeilen) oder uses (Actions)
       - run: echo "$GREETING, $NAME!"
